@@ -1,31 +1,40 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <cmath>
 
 class computeDistance{
 
 private:
     int testCases;
     int familyMembers;
-
-    std::vector<int> distance;
     int currentDistance;
-
+    int *outputDistance;
+    int *sumOfDistance;
 
 public:
     void computation() {
         std::cin >> testCases;
+        outputDistance = new int [testCases];
+        sumOfDistance = new int [testCases];
         for (int i = 0; i < testCases; i++) {
+            std::vector<int> *distance = new std::vector<int>;
             std::cin >> familyMembers;
             for (int j = 0; j < familyMembers; j++) {
                 std::cin >> currentDistance;
-                distance.insert(distance.begin() + j, currentDistance);
+                distance->push_back(currentDistance);
             }
-            std::sort(distance.begin(), distance.end());
-            int minDistance = distance.end() - distance.begin();
-            std::cout << "Distance end: " << distance.end() << ". Distance begin: " << distance.begin() << std::endl;
-            std::cout << "The distance was, " << minDistance << std::endl;
+            std::sort(distance->begin(), distance->end());
+            int medianValue = distance->at(ceil(distance->size() / 2));
+            for(int k = 0; k < distance->size(); k++){
+                sumOfDistance[i] += abs(medianValue - distance->at(k));
+            }
+        }
+    }
+
+    void output(){
+        for(int i = 0; i < testCases; i++){
+            std::cout << sumOfDistance[i] << std::endl;
         }
     }
 };
@@ -35,5 +44,6 @@ public:
 int main(){
     computeDistance *distance = new computeDistance();
     distance->computation();
+    distance->output();
     return 0;
 }
